@@ -1,0 +1,27 @@
+[project]
+name = "mefa"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ruff>=0.13.0",
+     "streamlit==1.49.1",
+    "psycopg2-binary==2.9.10",
+
+    "sqlalchemy==2.0.43",
+
+    "sqlalchemy-utils==0.42.0",
+    "sqlalchemy_utils==0.42.0",
+    "streamlit_sql>=0.2.0",
+
+    "Faker",
+    "langchain==0.3.27",
+    "langchain_community==0.3.27",
+    "langchain-openai==0.3.27",
+    "uvicorn==0.35.0",
+    "dspy-ai",
+    "beautifulsoup4",
+    "lxml==5.2.2",
+    "guardrails-ai",
+]

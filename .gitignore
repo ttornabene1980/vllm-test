@@ -1,0 +1,7 @@
+
+uv.lock
+dashboard/pages/.DS_Store
+dashboard/service/__pycache__/restart_db.cpython-312.pyc
+dashboard/service/__pycache__/db.cpython-312.pyc
+dashboard/service/__pycache__/db.cpython-313.pyc
+dashboard/.DS_Store
