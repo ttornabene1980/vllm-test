@@ -64,8 +64,7 @@ if st.button("Generate openai"):
 st.title("⚡ VLLM deepseek-coder-6.7b-instruct ")
 user_question2 = st.text_input("Ask :" ,"create html of table id|nome|citta ")
 if st.button("Generate vllm2"):
-    llm = llm_create()
-    try:
+        llm = llm_create()
         LLMChain = LLMChain(
             llm=llm,
             prompt=ChatPromptTemplate.from_template("{question}"),
@@ -75,7 +74,6 @@ if st.button("Generate vllm2"):
         st.write("Sto pensando... 💭")
         answer = LLMChain.run( user_question2 )
         print( "answer",answer )
-    
     
     
 st.title("⚡ VLLM deepseek-coder-6.7b-instruct ")
@@ -99,9 +97,5 @@ if st.button("Generate vllm2"):
         st.write("Fatto! ✅")
     st.write("Risposta del modello:")
     st.write(answer)
-        answer = f"Errore: {e}"
-        print( "Errore",e )
-    finally:
-        st.write("Fatto! ✅")
     st.write("Risposta del modello:")
     st.write(answer)
