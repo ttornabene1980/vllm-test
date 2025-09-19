@@ -34,9 +34,7 @@ if st.button("Generate openai"):
             # prompt=prompt,
             verbose=False,
             # prompt=prompt,
-            verbose=False,
             handle_parsing_errors=True,
-            callbacks=[  StdOutCallbackHandler()  ] 
             callbacks=[  StdOutCallbackHandler()  ] 
         )
     try:
