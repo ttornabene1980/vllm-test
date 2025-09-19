@@ -7,7 +7,7 @@ from sqlalchemy_utils import database_exists
 import streamlit as st
 from datetime import date
 
-from mefa.dashboard.service import db
+from dashboard.service import db
 
 
 def create_address(session: Session):
