@@ -6,7 +6,7 @@ import sys
 from datetime import date
 from sqlalchemy import select
 import pandas as pd
-from mefa.dashboard.service import db, restart_db
+from  dashboard.service import db, restart_db
 
 sys.path.append(os.path.abspath("."))
 
