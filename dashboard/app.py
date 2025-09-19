@@ -20,7 +20,7 @@ API_URL = os.environ.get("API_URL")
 
 st.set_page_config(page_title="VLLM", layout="wide")
 st.title("⚡ VLLM Sql agent  deepseek-coder-6.7b-instruct ")
-st.write("Env"+os.environ .__str__() )
+
 user_question = st.text_input("Ask openai:" ,"list all tables")
 if st.button("Generate openai"):
     st.write("Sto pensando... 💭")
