@@ -7,6 +7,7 @@ requires-python = ">=3.13"
 dependencies = [
     "ruff>=0.13.0",
     "streamlit==1.49.1",
+    "streamlit==1.49.1",
     "psycopg2-binary==2.9.10",
 
     "sqlalchemy==2.0.43",
@@ -20,7 +21,9 @@ dependencies = [
     "langchain-openai==0.3.27",
     "uvicorn==0.35.0",
     "dspy-ai==3.0.3",
+    "dspy-ai==3.0.3",
     "beautifulsoup4",
+    "lxml==5.0.0",
     "lxml==5.0.0",
     "guardrails-ai",
    
