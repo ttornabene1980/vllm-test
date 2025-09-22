@@ -1,5 +1,47 @@
 from langchain_openai import ChatOpenAI
 
+LLM_CONFIGS = [
+    {
+        "name": "DeepSeek Coder 6.7B",
+        "model": "deepseek-coder-6.7b-instruct",
+        "base_url": "http://192.168.1.98:8000/v1",
+        "temperature": 0,
+        "verbose": True
+    },
+    {
+        "name": "DeepSeek R1 Qwen3-8B",
+        "model": "DeepSeek-R1-0528-Qwen3-8B",
+        "base_url": "http://10.199.145.180:8080/v1",
+        "temperature": 0,
+        "verbose": True
+    },
+    {
+        "name": "OpenAI GPT-4o-mini",
+        "model": "gpt-4o-mini",
+        "base_url": None,
+        "temperature": 0,
+        "verbose": False
+    },
+    {
+        "name": "OpenAI GPT-4",
+        "model": "gpt-4",
+        "base_url": None,
+        "temperature": 0,
+        "verbose": False
+    }
+]
+
+def create_llm(config):
+    kwargs = {
+        "model": config["model"],
+        "temperature": config.get("temperature", 0),
+        "verbose": config.get("verbose", False)
+    }
+    if config.get("base_url"):
+        kwargs["base_url"] = config["base_url"]
+
+    return ChatOpenAI(**kwargs)
+
 def llm_create():
     llm = ChatOpenAI(
         model="deepseek-coder-6.7b-instruct",
@@ -8,6 +50,19 @@ def llm_create():
        temperature=0
     )
     return llm
+
+def llm_create_deepseekr1():
+    llm = ChatOpenAI(
+        model="DeepSeek-R1-0528-Qwen3-8B",
+        base_url="http://10.199.145.180:8080/v1",
+        verbose=True,
+        temperature=0
+    )
+    return llm
+
+
+def llm_create_openai_mini():
+    return ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
 def llm_create_openai():
     return ChatOpenAI( model="gpt-4", temperature=0)
