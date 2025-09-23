@@ -1,4 +1,5 @@
 import os
+from dashboard.service.ai import connect_weaviate
 import streamlit as st
 from dotenv import load_dotenv
 
@@ -11,16 +12,6 @@ from langchain.schema import Document
 # --- Config ---
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-WEAVIATE_HOST = os.getenv("WEAVIATE_HOST", "xps")
-
-# --- Connessione Weaviate 4 ---
-def connect_weaviate():
-        return   weaviate.connect_to_custom( http_host=WEAVIATE_HOST, http_port=8080,
-                                        grpc_secure=False,
-                                        http_secure=False,
-                                        grpc_host=WEAVIATE_HOST, grpc_port=50051 )
-
-
 
 
 # --- Recupera le classi esistenti ---

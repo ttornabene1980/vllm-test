@@ -2,29 +2,16 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 
-import weaviate
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_weaviate import WeaviateVectorStore
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
+import weaviate
 
-from dashboard.service.ai import LLM_CONFIGS, create_llm, llm_create_deepseekr1
+from dashboard.service.ai import LLM_CONFIGS, connect_weaviate, create_embedding, create_llm, embedding_docs, load_documents_from_dir
 
 load_dotenv()
-WEAVIATE_HOST = os.getenv("WEAVIATE_HOST", "xps")
+
 PREFIX = "RAG_VLLM_"
-
-
-# --- Connessione Weaviate 4 ---
-def connect_weaviate():
-    return weaviate.connect_to_custom(
-        http_host=WEAVIATE_HOST,
-        http_port=8080,
-        grpc_secure=False,
-        http_secure=False,
-        grpc_host=WEAVIATE_HOST,
-        grpc_port=50051,
-    )
 
 
 # --- Recupera le classi esistenti ---
@@ -40,8 +27,8 @@ def get_existing_projects():
 
 # --- Ingestione ---
 def ingest_text(text: str, project: str, new_project: str, projects: list[str]):
-    client = connect_weaviate()
-    embeddings = OpenAIEmbeddings()
+    client= connect_weaviate()
+   
     if new_project != "" and new_project not in projects:
         if new_project.strip():
             project = PREFIX + new_project
@@ -54,6 +41,7 @@ def ingest_text(text: str, project: str, new_project: str, projects: list[str]):
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     docs = splitter.split_documents([Document(page_content=text)])
 
+    embeddings = create_embedding()
     WeaviateVectorStore.from_documents(
         client=client,
         documents=docs,
@@ -67,12 +55,11 @@ def ingest_text(text: str, project: str, new_project: str, projects: list[str]):
     st.success(f"Ingeriti {n} chunk nel progetto '{project}' ✅")
     return n
 
-
 # --- Query ---
 def query_rag(question: str, project: str, top_k: int = 3):
     client = connect_weaviate()
-    embeddings = OpenAIEmbeddings()
-
+    
+    embeddings = create_embedding()
     store = WeaviateVectorStore(
         client=client,
         index_name=project,
@@ -81,8 +68,6 @@ def query_rag(question: str, project: str, top_k: int = 3):
     )
     retriever = store.as_retriever(search_kwargs={"k": top_k})
     docs = retriever.get_relevant_documents(question)
-
-    # llm = llm_create_deepseekr1()
     llm = create_llm(selected_config)
     st.write(f"✅ Using model: {selected_config['model']}")
 
@@ -102,16 +87,14 @@ selected_name = st.selectbox("Choose a model:", [c["name"] for c in LLM_CONFIGS]
 # Get config and build LLM
 selected_config = next(c for c in LLM_CONFIGS if c["name"] == selected_name)
 
-
-tab1, tab2 = st.tabs(["Ingestione", "Domande"])
+tab1, tab2,tab3, tab9 = st.tabs(["IngestionText", "IngestionSvn",  "WEAVIATE UTIL",  "Domande"])
 
 # --- Tab Ingestione ---
 with tab1:
     st.header("Carica documenti")
     projects = get_existing_projects()
-    project_ingest = st.selectbox("Seleziona progetto:", projects)
+    project_ingest = st.selectbox("Seleziona progetto:", projects, key="projects")
     new_project = st.text_input("Inserisci nome nuovo progetto:")
-
     text = st.text_area("Inserisci testo da indicizzare", height=200)
     if st.button("Ingerisci"):
         if text.strip() and (project_ingest.strip() or new_project.strip()):
@@ -120,8 +103,37 @@ with tab1:
         else:
             st.warning("Inserisci sia un progetto che del testo.")
 
-# --- Tab Domande ---
+# --- Tab Ingestione ---
 with tab2:
+    st.header("Carica svn url")
+    projects = get_existing_projects()
+    project_ingest = st.selectbox( "Seleziona progetto:", projects,   key="ingest_svn" )
+    new_project = st.text_input("Inserisci svn url:",value="volume_data/svn/ENTTBL/MATERIAL/BE/trunk" ,  key="url_svn" )
+    # text = st.text_area("Inserisci testo da indicizzare", height=200)
+    if st.button("ElaboraSvn"):
+        docs = load_documents_from_dir( new_project )
+        st.write(f"✅ Caricati {len(docs)} documenti da svn url: {new_project} ")
+        client = connect_weaviate()
+        embedding_docs(client,docs = docs ,  project=new_project )
+        client.close()
+        st.write(f"✅ Ingestione completata")
+        # if text.strip() and (project_ingest.strip() or new_project.strip()):
+        #     n = ingest_text(text, project_ingest, new_project, projects)
+        # else:
+        #     st.warning("Inserisci sia un progetto che del testo.")
+
+# --- Tab Ingestione ---
+with tab3:
+    st.header("WEAIATE UTIL ")
+    if st.button("PULISCI WEAVIATE"):
+        client = connect_weaviate()
+        client.collections.delete_all()
+        st.write(f"✅ Weaviate PULITO")
+        client.close()
+
+
+# --- Tab Domande ---
+with tab9:
     st.header("Fai una domanda")
     projects = get_existing_projects()
     project_query = st.selectbox("Seleziona progetto da interrogare:", projects)

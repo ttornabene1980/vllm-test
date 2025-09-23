@@ -3,35 +3,43 @@ name = "mefa"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "ruff>=0.13.0",
     "streamlit==1.49.1",
-    "streamlit==1.49.1",
     "psycopg2-binary==2.9.10",
-
     "sqlalchemy==2.0.43",
-
     "sqlalchemy-utils==0.42.0",
-    "sqlalchemy_utils==0.42.0",
     "streamlit_sql>=0.2.0",
     "Faker",
-    "langchain==0.3.27",
-    "langchain_community==0.3.27",
-    "langchain-openai==0.3.27",
+  
     "uvicorn==0.35.0",
-    "dspy-ai==3.0.3",
     "dspy-ai==3.0.3",
     "beautifulsoup4",
     "lxml==5.0.0",
-    "lxml==5.0.0",
     "guardrails-ai",
-   
     "openai==1.107.3",
     "pypdf2==3.0.1",
     "python-docx==1.2.0",
     "pdfplumber==0.11.7",
     "python-dotenv==1.1.1",
-    "langchain-weaviate==0.0.5",
-     "weaviate-client>=4.5.7"
+  
+    "weaviate-client>=4.5.7",
+    "svn==1.0.1",
+    "sentence-transformers>=2.2.2",
+    "torch==2.2.2",
+     "numpy<2.0.0",
+    "langchain",
+    "langchain_community",
+    "langchain-openai",
+    "langchain-huggingface",
+     "langchain-weaviate",
 ]
+ 
+ 
+
+#  "langchain==0.3.27",
+#     "langchain_community==0.3.27",
+#     "langchain-openai==0.3.27",
+#     "langchain-huggingface==0.3.1",
+#      "langchain-weaviate==0.0.5",
