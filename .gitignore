@@ -1,9 +1,10 @@
 
 uv.lock
 dashboard/pages/.DS_Store
-dashboard/service/__pycache__/restart_db.cpython-312.pyc
-dashboard/service/__pycache__/db.cpython-312.pyc
-dashboard/service/__pycache__/db.cpython-313.pyc
+dashboard/service/__pycache__/*
 dashboard/.DS_Store
-dashboard/service/__pycache__/restart_db.cpython-313.pyc
-dashboard/service/__pycache__/ai.cpython-313.pyc
+dashboard/pages/__pycache__/*
+volume_data/*
+results/*
+aggregated_summaries_with_id.html
+aggregated_summaries_with_id.json

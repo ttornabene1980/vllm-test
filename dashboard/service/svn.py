@@ -2,9 +2,10 @@ import subprocess
 
 def svn_checkout(project, username=None, password=None):
     repo_url = f"https://sqgate.lispa.local/repo/sw/{project}"
-    dest_path = f"./svn/{project}"
+    dest_path = f"./volume_data/svn/{project}"
     
     cmd = ["svn", "checkout", repo_url, dest_path]
+    print(f"Running command: {' '.join(cmd)}")
     
     if username and password:
         cmd.extend(["--username", username, "--password", password, "--non-interactive", "--trust-server-cert"])
@@ -17,7 +18,7 @@ def svn_checkout(project, username=None, password=None):
     return dest_path;
 
 
-# from svn.remote import RemoteClient
+# # from svn.remote import RemoteClient
 # def svn_download(repo_url, dest_path):
 #     r = RemoteClient(repo_url)
 #     entries = r.list()  # list files in repo
@@ -30,9 +31,9 @@ def svn_checkout(project, username=None, password=None):
 # svn_download("https://svn.example.com/myproject/trunk", "./myproject")
 
 # Example usage
-dest_path = svn_checkout(
-    project="ENTTBL/MATERIAL/BE/trunk",
-    username="ttornabene",
-    password="TommasoLuglio2025."
-)
-print(f"Checked out to: {dest_path}")
+# dest_path = svn_checkout(
+#     project="ENTTBL/MATERIAL/BE/trunk",
+#     username="ttornabene",
+#     password="TommasoLuglio2025."
+# )
+# print(f"Checked out to: {dest_path}")

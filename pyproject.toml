@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "ruff>=0.13.0",
     "streamlit==1.49.1",
+    "plotly-express==0.4.1",
     "psycopg2-binary==2.9.10",
     "sqlalchemy==2.0.43",
     "sqlalchemy-utils==0.42.0",
@@ -29,11 +30,16 @@ dependencies = [
     "sentence-transformers>=2.2.2",
     "torch==2.2.2",
      "numpy<2.0.0",
+     "scikit-learn==1.7.2",
+     
+     "pygments==2.19.2",
+
     "langchain",
     "langchain_community",
     "langchain-openai",
     "langchain-huggingface",
      "langchain-weaviate",
+     "langgraph==0.6.7"
 ]
  
  
