@@ -240,8 +240,8 @@ def summarize_refine_chain(project:str, llm, chunks: list[Document]):
 
 
 
-def refine_chain(project:str,  llm, chunks: list[Document],level:int ):
-    summaryFile = f"{project}-level{level}.html"
+def refine_chain(project:str, DIR_RESULT:str,   llm, chunks: list[Document],level:int ):
+    summaryFile = f"{DIR_RESULT}/{project}-level{level}.html"
     refine_prompt = ChatPromptTemplate.from_template(
     """Refine the following 
     {context} 

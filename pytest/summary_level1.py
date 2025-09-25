@@ -15,19 +15,20 @@ from dashboard.service.language_splitter import split_code_with_metadata
 from dashboard.service.vectordb import (connect_weaviate, embedding_docs,
                                         load_documents, load_pandas)
 
+DIR_RESULT ="results"
 selected_config =  LLM_CONFIGS[0]
 
 project = f"summary-level1-{selected_config['model']}"
 
 chunk_size = selected_config["max_tokens"] -100
-summary_repo_df = pd.read_json("summary.json")
+summary_repo_df = pd.read_json(f"{DIR_RESULT}/summary.json")
 
 print(summary_repo_df.head())
  
 df_grouped = summary_repo_df.groupby('filename')['summary'].agg(' '.join).reset_index()
 
 print(df_grouped)
-df_grouped.to_html("summary_level1.html")
+df_grouped.to_html(f"{DIR_RESULT}/summary_level1.html")
 
 
 
@@ -98,8 +99,8 @@ flat_data = flatten_tree_with_id(tree_dict)
 df_flat = pd.DataFrame(flat_data)
 
 # Save to HTML
-df_flat.to_html('aggregated_summaries_with_id.html', index=False)
-df_flat.to_json('aggregated_summaries_with_id.json', index=False)
+df_flat.to_html(f'{DIR_RESULT}/aggregated_summaries_with_id.html', index=False)
+df_flat.to_json(f'{DIR_RESULT}/aggregated_summaries_with_id.json', index=False)
 
 print( df_flat.head() )
 documents = load_pandas(df_flat, project,chunk_size= chunk_size)
@@ -107,4 +108,4 @@ print(f"documents chunk_size:{chunk_size} numerOfChunk:{len(documents)}")
 
 llm = create_llm(selected_config )
 print(f"refine_chain n:{len(documents)}")
-refine_chain(project,llm, documents,1)
+refine_chain(project,DIR_RESULT, llm, documents,1)
